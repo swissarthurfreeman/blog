@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 const ejs = require('ejs')
 require('dotenv').config()
 const { appendFile } = require('fs')
@@ -8,9 +7,13 @@ const mongoose = require('mongoose')
 const { restart } = require('nodemon')
 
 const bodyParser = require('body-parser')
-const BlogPost = require('./models/BlogPost')
 
 const newPostController = require('./controllers/newPost')
+const homeController = require('./controllers/home')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost')
+const newUserController = require('./controllers/newUser')
+const storeUserController = require('./controllers/storeUser')
 
 //adds the "files" property ot the req object of post route callbacks.
 //we can access any uploaded file using req.files.
@@ -31,20 +34,7 @@ app.use(fileUpload())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
-//app.use registers middleware to use with express
-//middleware is code that'll be executed before a
-//request is processed by an express route.
-//this can allow us to filter out invalid requests
-//validateMiddleWare will check wether one of the inputs
-//is empty and if so redirects back to posts, this avoids
-//errors when trying to read null.title and that way we don't
-//create empty ghost posts.
-const validateMiddleWare = (req, res, next) => {
-    if(req.files == null || req.body.title == null || req.body.title == null) {
-        return res.redirect('/posts/new')
-    }
-    next()
-}
+const validateMiddleWare = require('./middleware/validationMiddleware')
 
 app.use('/posts/store', validateMiddleWare)
 
@@ -64,50 +54,9 @@ app.listen(4000, () => {
     console.log('App listening on port 4000')
 })
 
-app.get('/', async (req, res) => {
-    //res.render automatically looks for files in views.
-    const blogposts = await BlogPost.find({})
-    //with this index.ejs now has access to blogposts variable.
-    //console.log(blogposts)
-    res.render('index', {
-        blogposts
-    });
-})
-
-app.get('/about', (req, res) => {
-    res.render('about');
-})
-
-app.get('/contact', (req, res) => {
-    res.render('contact');
-})
-
-app.get('/post/:id', async (req, res) => {
-    console.log(req.params.id)
-    const blogpost = await BlogPost.findById(req.params.id)
-    res.render('post', {
-        blogpost
-    })
-})
-
-
+app.get('/', homeController)
+app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
-
-app.post('/posts/store', async (req, res) => {
-    console.log(req.body)
-    let image = req.files.image;
-    //console.log(image)
-    image.mv(path.resolve(__dirname, 'public/img', image.name), 
-        async (error) => {
-            //creates a new document with browser data.
-            await BlogPost.create({
-                title: req.body.title,
-                body: req.body.body,
-                image: '/img/' + image.name
-            })
-                
-            //callback is called when create is complete.
-            res.redirect('/')    
-        }
-    )
-})
+app.post('/posts/store', storePostController)
+app.get('/auth/register', newUserController)
+app.post('/users/register', storeUserController)
