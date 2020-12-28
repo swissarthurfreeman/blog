@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
     const blogposts = await BlogPost.find({})
     //with this index.ejs now has access to blogposts variable.
     //console.log(blogposts)
+    console.log(req.session)
     res.render('index', {
         blogposts
     });

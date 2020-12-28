@@ -28,5 +28,7 @@ userSchema.pre('save', function(next) {
     })
 })
 
+//when we export this mongoose automatically creates
+//the corresponding collection in the database.
 const User = mongoose.model('User', userSchema)
 module.exports = User

@@ -1,5 +1,3 @@
-
-
 //app.use registers middleware to use with express
 //middleware is code that'll be executed before a
 //request is processed by an express route.

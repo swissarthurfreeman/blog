@@ -1,11 +1,12 @@
 const express = require('express')
 const ejs = require('ejs')
 require('dotenv').config()
-const { appendFile } = require('fs')
+
 //npm i mongoose afin de rajouter mongoose
 const mongoose = require('mongoose')
 
 const bodyParser = require('body-parser')
+const expressSession = require('express-session')
 
 const newPostController = require('./controllers/newPost')
 const homeController = require('./controllers/home')
@@ -15,6 +16,9 @@ const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
+
+//will be accessible to all ejs files.
+global.loggedIn = null; 
 
 //adds the "files" property ot the req object of post route callbacks.
 //we can access any uploaded file using req.files.
@@ -29,6 +33,13 @@ app.use(express.static('public'))
 //that way we'll have req.files available.
 app.use(fileUpload())
 
+//register expressSession middleware with configuration
+//object with secret key. Secret is used to sign and
+//encrypt the session ID cookie shared with the browser.
+app.use(expressSession({
+    secret: 'gordon-freeman'
+}))
+
 //adds the req.body property, all req.body.* properties
 //will depend on the entries we have in the form
 //from the which the request has been made. (cf. create.ejs)
@@ -36,8 +47,21 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
 const validateMiddleWare = require('./middleware/validationMiddleware')
+const authMiddleware = require('./middleware/authMiddleware')
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware') 
 
 app.use('/posts/store', validateMiddleWare)
+
+//pipeline from left to right, authMiddleware is first called,
+//then newPostController before anything done at /posts/new
+//                  check session id, check not undefined
+app.use('/posts/new', authMiddleware, newPostController)
+
+app.use('*', (req, res, next) => {
+    loggedIn = req.session.userId;
+    next()
+})
+
 
 //will make it that any file ending with .ejs
 //will be rendered using ejs package. (res.render)
@@ -58,11 +82,12 @@ app.listen(4000, () => {
 app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
+app.post('/posts/store', authMiddleware, newPostController)
 app.post('/posts/store', storePostController)
-app.get('/auth/register', newUserController)
-app.post('/users/register', storeUserController)
-app.get('/auth/login', loginController)
-app.post('/users/login', loginUserController)
+app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController)
+app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
+app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
+app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 
 //Issues : 
 /*
