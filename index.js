@@ -14,6 +14,7 @@ const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
+
 //will be accessible to all ejs files.
 global.loggedIn = null; 
 
