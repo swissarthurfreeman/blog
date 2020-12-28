@@ -4,7 +4,6 @@ require('dotenv').config()
 const { appendFile } = require('fs')
 //npm i mongoose afin de rajouter mongoose
 const mongoose = require('mongoose')
-const { restart } = require('nodemon')
 
 const bodyParser = require('body-parser')
 
@@ -14,6 +13,8 @@ const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
 const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
+const loginController = require('./controllers/login')
+const loginUserController = require('./controllers/loginUser')
 
 //adds the "files" property ot the req object of post route callbacks.
 //we can access any uploaded file using req.files.
@@ -60,3 +61,10 @@ app.get('/posts/new', newPostController)
 app.post('/posts/store', storePostController)
 app.get('/auth/register', newUserController)
 app.post('/users/register', storeUserController)
+app.get('/auth/login', loginController)
+app.post('/users/login', loginUserController)
+
+//Issues : 
+/*
+Dates are fucked up.
+*/
