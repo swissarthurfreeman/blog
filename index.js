@@ -1,13 +1,10 @@
 const express = require('express')
 const ejs = require('ejs')
 require('dotenv').config()
-
-//npm i mongoose afin de rajouter mongoose
 const mongoose = require('mongoose')
-
 const bodyParser = require('body-parser')
 const expressSession = require('express-session')
-
+const flash = require('connect-flash')
 const newPostController = require('./controllers/newPost')
 const homeController = require('./controllers/home')
 const storePostController = require('./controllers/storePost')
@@ -16,7 +13,7 @@ const newUserController = require('./controllers/newUser')
 const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
-
+const logoutController = require('./controllers/logout')
 //will be accessible to all ejs files.
 global.loggedIn = null; 
 
@@ -40,6 +37,12 @@ app.use(expressSession({
     secret: 'gordon-freeman'
 }))
 
+//allows to erase messages received at last
+//request cycle (error messages for instance)
+//all requests will have a req.flash() function
+//used to flash messages.
+app.use(flash())
+
 //adds the req.body property, all req.body.* properties
 //will depend on the entries we have in the form
 //from the which the request has been made. (cf. create.ejs)
@@ -49,6 +52,7 @@ app.use(bodyParser.urlencoded({extended:true}))
 const validateMiddleWare = require('./middleware/validationMiddleware')
 const authMiddleware = require('./middleware/authMiddleware')
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware') 
+const logout = require('./controllers/logout')
 
 app.use('/posts/store', validateMiddleWare)
 
@@ -57,6 +61,7 @@ app.use('/posts/store', validateMiddleWare)
 //                  check session id, check not undefined
 app.use('/posts/new', authMiddleware, newPostController)
 
+//on all requests this middleware will be executed.
 app.use('*', (req, res, next) => {
     loggedIn = req.session.userId;
     next()
@@ -82,12 +87,17 @@ app.listen(4000, () => {
 app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
-app.post('/posts/store', authMiddleware, newPostController)
+//app.post('/posts/store', authMiddleware, newPostController)
 app.post('/posts/store', storePostController)
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController)
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
+app.get('/auth/logout', logoutController)
+
+//if after having checked all routes, we haven't sent anything
+//it means it ain't defined, so we render notfound.
+app.use((req, res) => res.render('notfound'))
 
 //Issues : 
 /*

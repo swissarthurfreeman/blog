@@ -2,6 +2,7 @@ const BlogPost = require('../models/BlogPost')
 const path = require('path')
 
 module.exports = async (req, res) => {
+    console.log("HELLOOOO")
     console.log(req.body)
     let image = req.files.image;
     //console.log(image)
@@ -11,8 +12,14 @@ module.exports = async (req, res) => {
             await BlogPost.create({
                 title: req.body.title,
                 body: req.body.body,
-                image: '/img/' + image.name
+                image: '/img/' + image.name,
+                //will exist because new post only available after having logged in
+                //userId gets populated in loginUser.js
+                userid: req.session.userId  
             })
+
+            if(error)
+                console.log(error)
                 
             //callback is called when create is complete.
             res.redirect('/')    

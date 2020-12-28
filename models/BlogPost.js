@@ -13,7 +13,14 @@ const Schema = mongoose.Schema
 const BlogPostSchema = new Schema({
     title: String,
     body: String,
-    username: String,
+    //username: String,
+    userid : {
+        //specifies a valid objectId. Mong ohas a specific id for each document
+        //and they must be in a valid format.
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', //refers to the user collection.
+        required: true
+    },
     datePosted: {
         type: Date,
         default: new Date()
