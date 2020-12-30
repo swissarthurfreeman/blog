@@ -74,7 +74,7 @@ app.use('*', (req, res, next) => {
 app.set('view engine', 'ejs')
 
 mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@` + 
-                `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, //URI
+                `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`, //URI
                 {useNewUrlParser:true, useUnifiedTopology:true}, //options
                 function(err) {         //error handling
                     if(err) throw err
