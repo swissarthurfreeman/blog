@@ -13,6 +13,9 @@ services:
       - MONGO_DATABASE=gordon_blog
     depends_on:
       - database
+    networks: 
+      - blog
+
 
   database:
     restart: always
@@ -24,6 +27,8 @@ services:
       #on monte le volume sur le host du nom de mongo_db
       #a l'enplacement /data/db dans le container.
       - mongo_db:/data/db
+    networks:
+      - blog
   
   mongo-express:
     image: mongo-express
@@ -36,6 +41,11 @@ services:
       ME_CONFIG_MONGODB_SERVER: database
     depends_on:
       - database
+    networks:
+      - blog
 
 volumes:
   mongo_db:
+
+networks:
+  blog:
