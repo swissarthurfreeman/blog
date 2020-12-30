@@ -36,6 +36,8 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: thenameofjesuschristo
       ME_CONFIG_MONGODB_SERVER: database
+    links:
+      - database
     depends_on:
       - database
 
