@@ -1,4 +1,12 @@
-#this is the file used on raspberry pi.
+#afin de déployer sur raspberry pi :
+#si on a changé les mots de passe, il faut
+#recréer le volume sur lequel mongo stocke ses bd !
+#dans docker-compose : on sette les variables d'environnement
+#a ce qu'on désire. (entièrement caché du monde)
+# ensuite on run (dans le répertoire contenant les fichiers):
+# - docker-compose mongo
+# - docker-compose mongo-express
+# - docker-compose up --build
 version: "3.3"
 
 services: 
@@ -25,6 +33,9 @@ services:
     environment: 
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    #only use for development (not on rpbi)
+    ports:
+      - "27017:27017"
     volumes:
       #on monte le volume sur le host du nom de mongo_db
       #a l'enplacement /data/db dans le container.

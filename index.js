@@ -1,3 +1,27 @@
+//Issues / ToDo : 
+/*
+0) Reorganise code and remove comments index.js (they're kept in previous commits.)
+1) Dates are fucked up.
+2) Fix html tags appearing in subtitle of post
+3) Add subtitle field to post schema, in order not to have
+whole article in subtitle.
+4) Add contact form with re-captcha authentification.
+5) Remove new user button, only gordon or approved users this
+ain't a public forum.
+6) find way to change background to black.
+7) Repair image upload system, on image for header sure,
+8) but we need to store them in a volume, not in /img
+or else they will be deleted if volume is deleted.
+9) Figure out way to include images in blogposts.
+10) No need for error handling with express image upload
+since users won't be able of uploading stuff.
+11) redirect gordon post link to about.
+12) Gordon's blog link (top left) must redirect to home.
+13) See how database transfering works
+14) See how you can transfer collections from one database to a new one
+15) See how to backup periodically all posts.
+*/
+
 const express = require('express')
 const ejs = require('ejs')
 require('dotenv').config()
@@ -14,6 +38,8 @@ const storeUserController = require('./controllers/storeUser')
 const loginController = require('./controllers/login')
 const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
+const getAboutController = require('./controllers/getAbout')
+const getContactController = require('./controllers/getContact')
 
 //will be accessible to all ejs files.
 global.loggedIn = null; 
@@ -99,12 +125,9 @@ app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserControll
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 app.get('/auth/logout', logoutController)
+app.get('/pages/about', getAboutController)
+app.get('/pages/contact', getContactController)
 
 //if after having checked all routes, we haven't sent anything
 //it means it ain't defined, so we render notfound.
 app.use((req, res) => res.render('notfound'))
-
-//Issues : 
-/*
-Dates are fucked up.
-*/
