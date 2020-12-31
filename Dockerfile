@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install
 
+RUN npm prune --production
+
 EXPOSE 4000
 
 CMD ["npm", "start"]
