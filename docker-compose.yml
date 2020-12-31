@@ -11,11 +11,11 @@ services:
       MONGO_PASS: thenameofjesuschristo
       MONGO_PORT: 27017
       MONGO_DATABASE: gordon_blog
+    restart: on-failure
     depends_on:
       - database
     networks: 
       - blog
-
 
   database:
     restart: always
@@ -23,7 +23,6 @@ services:
     environment: 
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: thenameofjesuschristo
-      
     volumes:
       #on monte le volume sur le host du nom de mongo_db
       #a l'enplacement /data/db dans le container.

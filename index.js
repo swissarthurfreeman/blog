@@ -68,13 +68,14 @@ app.use('*', (req, res, next) => {
     next()
 })
 
-
 //will make it that any file ending with .ejs
 //will be rendered using ejs package. (res.render)
 app.set('view engine', 'ejs')
 
+//morale ne jamais mettre /database_name sinon l'authentification foire.
+//laisser tourner dans tests temporairement.
 mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@` + 
-                `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`, //URI
+                `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, //URI
                 {useNewUrlParser:true, useUnifiedTopology:true}, //options
                 function(err) {         //error handling
                     if(err) {
