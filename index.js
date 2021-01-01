@@ -22,6 +22,9 @@ since users won't be able of uploading stuff.
 15) See how to backup periodically all posts.
 */
 
+/***************************************************/
+/*                   IMPORTS                       */
+/***************************************************/
 const express = require('express')
 const ejs = require('ejs')
 require('dotenv').config()
@@ -29,33 +32,60 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const expressSession = require('express-session')
 const flash = require('connect-flash')
-const newPostController = require('./controllers/newPost')
-const homeController = require('./controllers/home')
-const storePostController = require('./controllers/storePost')
-const getPostController = require('./controllers/getPost')
-const newUserController = require('./controllers/newUser')
-const storeUserController = require('./controllers/storeUser')
-const loginController = require('./controllers/login')
-const loginUserController = require('./controllers/loginUser')
-const logoutController = require('./controllers/logout')
-const getAboutController = require('./controllers/getAbout')
-const getContactController = require('./controllers/getContact')
-
-//will be accessible to all ejs files.
-global.loggedIn = null; 
-
 //adds the "files" property ot the req object of post route callbacks.
 //we can access any uploaded file using req.files.
 const fileUpload = require('express-fileupload')
 
 const app = new express()
-//autocompletes any request into /public, including
-//for html files, whenever they link to another file, say CSS
-//they'll go look for it in public.
+
+//will be accessible to all ejs files.
+global.loggedIn = null; 
+
+/***************************************************/
+/*        USER DEFINED MIDDLEWARE FUNCTIONS        */
+/***************************************************/
+const validateMiddleWare = require('./middleware/validationMiddleware')
+const authMiddleware = require('./middleware/authMiddleware')
+const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware') 
+
+
+/***************************************************/
+/*          MIDDLEWARE STACK DECLARATION           */
+/***************************************************/
+/*
+Middleware functions are functions that have access to the 
+request object, the response object and the next middleware
+function in the application request-response cycle.
+
+app.use is like a root except that it'll be executed regardless
+of the http request type.
+
+http://expressjs.com/en/5x/api.html#app.use
+http://expressjs.com/en/guide/using-middleware.html
+
+expres.static('public') will transform any request url into
+/public/req.url (this is executed everytime the app receives a request.)
+*/
 app.use(express.static('public'))
-//we register the package in Express with app.use
-//that way we'll have req.files available.
-app.use(fileUpload())
+
+/*
+This middleware allows to upload files. It will add the req.files
+property to the req object. Say we upload car.jpg in a form, and
+the field name is foo <input name="foo", type="file" />, then 
+in express we'll be able to access at a post route req.files.foo.
+More details on what req.files.foo looks like : 
+
+https://www.npmjs.com/package/express-fileupload
+
+fileUpload() depends on busybody, we can add options, like limits and size / type.
+busybody is a module for parsing incoming HTML form data.
+*/ 
+app.use(fileUpload({
+    limits: { 
+        fileSize: 10, //10 Megabytes
+        fieldNameSize: 100 //100 characters maximum.
+    }
+}))
 
 //register expressSession middleware with configuration
 //object with secret key. Secret is used to sign and
@@ -76,13 +106,8 @@ app.use(flash())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 
-const validateMiddleWare = require('./middleware/validationMiddleware')
-const authMiddleware = require('./middleware/authMiddleware')
-const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware') 
-const logout = require('./controllers/logout')
-
+const newPostController = require('./controllers/newPost')
 app.use('/posts/store', validateMiddleWare)
-
 //pipeline from left to right, authMiddleware is first called,
 //then newPostController before anything done at /posts/new
 //                  check session id, check not undefined
@@ -98,8 +123,25 @@ app.use('*', (req, res, next) => {
 //will be rendered using ejs package. (res.render)
 app.set('view engine', 'ejs')
 
-//morale ne jamais mettre /database_name sinon l'authentification foire.
-//laisser tourner dans tests temporairement.
+/***************************************************/
+/*                   CONTROLLERS                   */
+/***************************************************/
+const logout = require('./controllers/logout')
+const homeController = require('./controllers/home')
+const storePostController = require('./controllers/storePost')
+const getPostController = require('./controllers/getPost')
+const newUserController = require('./controllers/newUser')
+const storeUserController = require('./controllers/storeUser')
+const loginController = require('./controllers/login')
+const loginUserController = require('./controllers/loginUser')
+const logoutController = require('./controllers/logout')
+const getAboutController = require('./controllers/getAbout')
+const getContactController = require('./controllers/getContact')
+
+
+/***************************************************/
+/*              DATABASE CONNECTION                */
+/***************************************************/
 mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@` + 
                 `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, //URI
                 {useNewUrlParser:true, useUnifiedTopology:true}, //options
@@ -115,10 +157,12 @@ app.listen(4000, () => {
     console.log('App listening on port 4000')
 })
 
+/***************************************************/
+/*                    ROUTES                       */
+/***************************************************/
 app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
-//app.post('/posts/store', authMiddleware, newPostController)
 app.post('/posts/store', storePostController)
 app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController)
 app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)

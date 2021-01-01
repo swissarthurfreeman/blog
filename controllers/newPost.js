@@ -4,7 +4,10 @@ user to create a new blog post.*/
 module.exports = (req, res) => {
     if(req.session.userId) {        
         return res.render('create', {
-            createPost: true
+            createPost: true,
+            title: "",
+            providedText: "",
+            imageError: ""
         })
     }
     res.redirect('/auth/login')

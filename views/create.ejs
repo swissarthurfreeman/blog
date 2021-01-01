@@ -47,7 +47,7 @@
               <label>Title</label>
               <!--Input type="text" creates a text box, name is the property we'll be able to 
               access using req.body in index.js-->
-              <input type="text" class="form-control" placeholder="title" id="title" name="title">
+              <input type="text" class="form-control" placeholder="title" id="title" name="title" value="<%= title %>">
             </div>
           </div>
           <div class="control-group">
@@ -56,9 +56,10 @@
               <!--textarea is similar to input, what is outputed by summernote will be a bunch of formatted html
               so we print it as html. -->
               <textarea id="summernote" rows="5" class="form-control" placeholder="body" name="body"></textarea>
-              
-              <p class="help-block text-danger"></p>
-              <input type="file" class="form-control" id="image" name="image">
+              <% if(imageError) { %>
+                <p class="help-block text-danger"><%= imageError %></p>
+              <% } %> 
+              <input type="file" accept="image/png,image/jpeg" class="form-control" id="image" name="image">
             </div>
           </div>
           <br>
@@ -77,8 +78,16 @@
   <script>
     $(document).ready(function() {
       $('#summernote').summernote();
-    });
+    });    
   </script>
+  <% if(imageError) { %>
+  <script>
+     $(document).ready(function() {
+      $('#summernote').summernote('editor.pasteHTML', "<%= providedText %>");      
+    }); 
+  </script>
+  <% } %> 
+  
 
 </body>
 

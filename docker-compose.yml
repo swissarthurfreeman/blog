@@ -9,7 +9,7 @@
 # - docker-compose up --build
 version: "3.3"
 
-services: 
+services:
   blog:
     build: .
     ports:
