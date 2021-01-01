@@ -12,6 +12,7 @@ const Schema = mongoose.Schema
 //the collection here is a blog post
 const BlogPostSchema = new Schema({
     title: String,
+    subtitle: String,
     body: String,
     //username: String,
     userid : {

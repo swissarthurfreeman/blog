@@ -1,10 +1,5 @@
 //Issues / ToDo : 
 /*
-0) Reorganise code and remove comments index.js (they're kept in previous commits.)
-1) Dates are fucked up.
-2) Fix html tags appearing in subtitle of post
-3) Add subtitle field to post schema, in order not to have
-whole article in subtitle.
 4) Add contact form with re-captcha authentification.
 5) Remove new user button, only gordon or approved users this
 ain't a public forum.
@@ -20,6 +15,7 @@ since users won't be able of uploading stuff.
 13) See how database transfering works
 14) See how you can transfer collections from one database to a new one
 15) See how to backup periodically all posts.
+16) Add database to keep track of visitors (logging their ips.)
 */
 
 /***************************************************/
