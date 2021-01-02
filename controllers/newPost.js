@@ -8,7 +8,9 @@ module.exports = (req, res) => {
             title: "",
             subtitle: "",
             providedText: "",
-            imageError: ""
+            imageError: "",
+            titleError: "",
+            subtitleError: ""
         })
     }
     res.redirect('/auth/login')

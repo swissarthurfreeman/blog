@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     const blogposts = await BlogPost.find({}).populate('userid');
     //with this index.ejs now has access to blogposts variable.
     //console.log(blogposts)
-    console.log(blogposts)
+    //console.log(blogposts)
     res.render('index', {
         blogposts
     });

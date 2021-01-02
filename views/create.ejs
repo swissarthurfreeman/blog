@@ -48,8 +48,14 @@
               <label>Title</label>
               <!--Input type="text" creates a text box, name is the property we'll be able to 
               access using req.body in index.js-->
+              <% if(titleError) { %>
+                <p class="help-block text-danger"><%= titleError %></p>
+              <% } %> 
               <input type="text" class="form-control" placeholder="title" id="title" name="title" value="<%= title %>">
               <hr>
+              <% if(subtitleError) { %>
+                <p class="help-block text-danger"><%= subtitleError %></p>
+              <% } %> 
               <input type="text" class="form-control" placeholder="subtitle" id="subtitle" name="subtitle" value="<%= subtitle %>">
             </div>
           </div>
