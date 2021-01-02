@@ -30,25 +30,24 @@
         enctype is the mime value of the form submission.
         multipart/form-data allows to use inputs with file name.
         -->
-        <% if(errors != null && errors.length > 0) { %> 
-          <ul class="list-group">
-            <% for(let i = 0; i < errors.length; i++) { %>
-              <li class="list-group-item list-group-item-danger"><%= errors[i] %></li>
-            <% } %> 
-          </ul>
-        <% } %> 
         <form action="/users/register" method="POST" enctype="multipart/form-data">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Username</label>
               <!--Input type="text" creates a text box, name is the property we'll be able to 
               access using req.body in index.js-->
+              <% if(usernameError) { %>
+                <p class="help-block text-danger"><%=usernameError%></p>
+              <% } %> 
               <input type="text" class="form-control" placeholder="User Name" id="username" name="username" value="<%= username %>">
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Password</label>
+              <% if(passwordError) { %>
+                <p class="help-block text-danger"><%=passwordError%></p>
+              <% } %> 
               <input type="password" class="form-control" placeholder="Password" id="password" name="password" value="<%= password %>">
             </div>
           </div>

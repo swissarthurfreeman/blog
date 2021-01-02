@@ -4,8 +4,7 @@
 5) Remove new user button, only gordon or approved users this
 ain't a public forum.
 6) find way to change background to black.
-7) Repair image upload system, on image for header sure,
-8) but we need to store them in a volume, not in /img
+8) Must store images in volume not /img
 or else they will be deleted if volume is deleted.
 9) Figure out way to include images in blogposts.
 10) No need for error handling with express image upload
@@ -133,6 +132,7 @@ const loginUserController = require('./controllers/loginUser')
 const logoutController = require('./controllers/logout')
 const getAboutController = require('./controllers/getAbout')
 const getContactController = require('./controllers/getContact')
+const getRegisterController = require('./controllers/getRegisterController')
 
 
 /***************************************************/
@@ -160,8 +160,10 @@ app.get('/', homeController)
 app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
 app.post('/posts/store', storePostController)
-app.get('/auth/register', redirectIfAuthenticatedMiddleware, newUserController)
-app.post('/users/register', redirectIfAuthenticatedMiddleware, storeUserController)
+
+app.get('/auth/register', redirectIfAuthenticatedMiddleware, getRegisterController)
+app.post('/users/register', newUserController, storeUserController)
+
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 app.get('/auth/logout', logoutController)
