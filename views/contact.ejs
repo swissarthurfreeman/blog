@@ -28,32 +28,44 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <p>Si vous souhaitez me contacter veuillez utiliser le formulaire suivant : </p>
-        <form name="sentMessage" id="contactForm" novalidate>
+        <form action="/pages/contact" method="POST" id="contactForm" novalidate>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Name</label>
-              <input type="text" class="form-control" placeholder="Nom" id="name" required data-validation-required-message="Please enter your name.">
+              <% if(nameError) { %>
+                <p class="help-block text-danger"><%= nameError %></p>
+              <% } %> 
+              <input name="name" type="text" class="form-control" placeholder="Nom" id="name" required data-validation-required-message="Please enter your name." value="<%= name %>">
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Email Address</label>
-              <input type="email" class="form-control" placeholder="Addresse Email" id="email" required data-validation-required-message="Please enter your email address.">
+              <% if(emailError) { %>
+                <p class="help-block text-danger"><%= emailError %></p>
+              <% } %> 
+              <input name="email" type="email" class="form-control" placeholder="Addresse Email" id="email" required data-validation-required-message="Please enter your email address." value="<%= email %>">
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
               <label>Phone Number</label>
-              <input type="tel" class="form-control" placeholder="Numéro" id="phone" required data-validation-required-message="Please enter your phone number.">
+              <% if(numberError) { %>
+                <p class="help-block text-danger"><%= numberError %></p>
+              <% } %> 
+              <input name="number" type="tel" class="form-control" placeholder="Numéro" id="phone" required data-validation-required-message="Please enter your phone number." value="<%= number %>">
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Message</label>
-              <textarea rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."></textarea>
+              <% if(messageError) { %>
+                <p class="help-block text-danger"><%= messageError %></p>
+              <% } %> 
+              <textarea name="message" rows="5" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter a message."><%= message %></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>

@@ -1,11 +1,23 @@
 const BlogPost = require('../models/BlogPost')
+const fs = require('fs')
 const path = require('path')
 
 module.exports = async (req, res) => {
     let image = req.files.image;
-    //console.log(image)
-    console.log(image) 
-    image.mv(path.resolve(__dirname, '..', 'public/img', image.name), 
+
+    //compatibility unix/windows, join creates filepath for correct platform.
+    const imgDir = path.join("uploads", "images");  
+    console.log(imgDir)
+    if( !(fs.existsSync(imgDir) )) {
+        fs.mkdir(imgDir, (error) => {
+            if(error) {
+                console.log(`Error cannot create directory : ${imgDir}`)
+            }
+        })
+    }
+
+    console.log(image)
+    image.mv(path.join(imgDir, image.name), 
         async (error) => {
             //creates a new document with browser data.
             await BlogPost.create({

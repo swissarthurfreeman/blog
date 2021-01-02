@@ -1,12 +1,14 @@
-FROM node:latest
+FROM node:alpine
 
 WORKDIR /usr/src/app
 
+COPY package.json .
+
+RUN npm install && npm prune --production
+
 COPY . .
 
-RUN npm install
-
-RUN npm prune --production
+VOLUME [ "/usr/src/app/uploads" ]
 
 EXPOSE 4000
 

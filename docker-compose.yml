@@ -13,18 +13,20 @@ services:
   blog:
     build: .
     ports:
-      - "4000:4000"
+      - "5000:4000"
     environment:
       #platform deployement is done on specific
-      MONGO_HOST: ${MONGO_HOST}
+      MONGO_HOST: database
       MONGO_USER: ${MONGO_USER}
       MONGO_PASS: ${MONGO_PASS}
       MONGO_PORT: ${MONGO_PORT}
       MONGO_DATABASE: gordon_blog
     restart: on-failure
+    volumes:
+      - uploads:/usr/src/app/uploads
     depends_on:
       - database
-    networks: 
+    networks:
       - blog
 
   database:
@@ -59,6 +61,7 @@ services:
 
 volumes:
   mongo_db:
+  uploads:
 
 networks:
   blog:

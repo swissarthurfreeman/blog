@@ -1,17 +1,10 @@
 //Issues / ToDo : 
 /*
+To finish :
 4) Add contact form with re-captcha authentification. ***
-5) Make new user button only accessible if logged in, only gordon or approved users this
-ain't a public forum.
-8) Must store images in volume not /img
-or else they will be deleted if container is deleted.
 9) Figure out way to include images in blogposts. (easy with img tag from summernote)
 10) No need for error handling with express image upload
 since users won't be able of uploading stuff.
-11) redirect gordon post link to about.
-13) See how database transfering works
-14) See how you can transfer collections from one database to a new one
-15) See how to backup periodically all posts.
 16) Add database to keep track of visitors (logging their ips.)
 */
 
@@ -122,7 +115,8 @@ const logoutController = require('./controllers/logout')
 const getAboutController = require('./controllers/getAbout')
 const getContactController = require('./controllers/getContact')
 const getRegisterController = require('./controllers/getRegisterController')
-
+const sendEmailMiddleware = require('./middleware/sendEmailMiddleware')
+const sendEmailController = require('./controllers/sendEmail') 
 
 /***************************************************/
 /*              DATABASE CONNECTION                */
@@ -157,7 +151,10 @@ app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 app.get('/auth/logout', logoutController)
 app.get('/pages/about', getAboutController)
+
+
 app.get('/pages/contact', getContactController)
+app.post('/pages/contact', sendEmailMiddleware, sendEmailController)
 
 //if after having checked all routes, we haven't sent anything
 //it means it ain't defined, so we render notfound.
