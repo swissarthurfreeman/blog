@@ -78,7 +78,7 @@ busybody is a module for parsing incoming HTML form data.
 */ 
 app.use(fileUpload({
     limits: { 
-        fileSize: 10, //10 Megabytes
+        fileSize: 10*(10**6), //10 Megabytes (this value is in bytes.)
         fieldNameSize: 100 //100 characters maximum.
     }
 }))
