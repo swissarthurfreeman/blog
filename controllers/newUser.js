@@ -20,12 +20,10 @@ module.exports = (req, res, next) => {
     if(req.body.username.length == 0) {
         hang = true
         errors["usernameError"] = "Please provide a username and password !";
-        console.log("WALTER")
         res.render('register', errors);
     } else if( req.body.password.length < 10 || !(containsUpperCase(req.body.password))) {
         hang = true
-        errors["passwordError"] = "Password must be at least 10 characters long and contain an upercase letter !";
-        console.log("KOWALSKI")
+        errors["passwordError"] = "Password must be at least 10 characters long and contain an uppercase letter !";
         res.render('register', errors);
     }
     if(!hang) {

@@ -6,8 +6,17 @@ module.exports = (req, res) => {
     User.create(req.body, (error, user) => {
         if(error) {
             console.log(error)
-            return res.redirect('/auth/register')
+            console.log("HERE")
+            
+            let errors = {
+                usernameError: "Username already in use !",
+                passwordError: "",
+                password: req.body.password,
+                username: req.body.username
+            }
+            return res.render('register', errors);
+        } else {
+            res.redirect('/');
         }
-        res.redirect('/')
     })
 }

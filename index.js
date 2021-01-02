@@ -26,9 +26,6 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const expressSession = require('express-session')
-const flash = require('connect-flash')
-//adds the "files" property ot the req object of post route callbacks.
-//we can access any uploaded file using req.files.
 const fileUpload = require('express-fileupload')
 
 const app = new express()
@@ -88,12 +85,6 @@ app.use(fileUpload({
 app.use(expressSession({
     secret: 'gordon-freeman'
 }))
-
-//allows to erase messages received at last
-//request cycle (error messages for instance)
-//all requests will have a req.flash() function
-//used to flash messages.
-app.use(flash())
 
 //adds the req.body property, all req.body.* properties
 //will depend on the entries we have in the form
