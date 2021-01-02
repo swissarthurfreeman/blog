@@ -1,16 +1,14 @@
 //Issues / ToDo : 
 /*
-4) Add contact form with re-captcha authentification.
-5) Remove new user button, only gordon or approved users this
+4) Add contact form with re-captcha authentification. ***
+5) Make new user button only accessible if logged in, only gordon or approved users this
 ain't a public forum.
-6) find way to change background to black.
 8) Must store images in volume not /img
-or else they will be deleted if volume is deleted.
-9) Figure out way to include images in blogposts.
+or else they will be deleted if container is deleted.
+9) Figure out way to include images in blogposts. (easy with img tag from summernote)
 10) No need for error handling with express image upload
 since users won't be able of uploading stuff.
 11) redirect gordon post link to about.
-12) Gordon's blog link (top left) must redirect to home.
 13) See how database transfering works
 14) See how you can transfer collections from one database to a new one
 15) See how to backup periodically all posts.

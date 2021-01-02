@@ -1,3 +1,4 @@
+/*This function really should be middleware, it acts as such.*/ 
 function containsUpperCase(str) {
     for(let i=0; i < str.length; i++) {
         if (!(str[i] == str[i].toLowerCase() && str[i] != str[i].toUpperCase())) {
@@ -9,6 +10,7 @@ function containsUpperCase(str) {
 
 module.exports = (req, res, next) => {
     console.log(req.body.username)
+    //hang is used to not use next if there was a problem.
     var hang = false
     let errors = {
         usernameError: "",
