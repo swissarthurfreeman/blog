@@ -7,6 +7,8 @@ module.exports = async (req, res) => {
     //console.log(blogposts)
     //console.log(blogposts)
     res.render('index', {
-        blogposts
+        blogposts,
+        emailSent: false,
+        emailNotSent : false
     });
 }

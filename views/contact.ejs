@@ -3,6 +3,12 @@
 
 <head>
   <%- include('layouts/header'); -%>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script type="text/javascript">
+    function enable_submit_button() {
+      document.getElementById("sendMessageButton").disabled = false
+    }
+  </script>
 </head>
 
 <body>
@@ -16,7 +22,7 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
-            <h1>Contatez Moi</h1>
+            <h1>Contactez Moi</h1>
           </div>
         </div>
       </div>
@@ -70,8 +76,9 @@
             </div>
           </div>
           <br>
-          <div id="success"></div>
-          <button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
+          <div class="g-recaptcha" data-sitekey="6LcLBR8aAAAAAFKv2BPi266wnlKP5vrIlWFiwycx" data-callback="enable_submit_button"></div>
+          <br/>
+          <input type="submit" class="btn btn-primary" id="sendMessageButton" value="Verify & Submit" disabled></input>
         </form>
       </div>
     </div>
