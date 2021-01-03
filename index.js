@@ -50,6 +50,7 @@ expres.static('public') will transform any request url into
 /public/req.url (this is executed everytime the app receives a request.)
 */
 app.use(express.static('public'))
+app.use(express.static('uploads'))
 
 /*
 This middleware allows to upload files. It will add the req.files

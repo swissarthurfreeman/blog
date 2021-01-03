@@ -26,7 +26,9 @@ services:
       GMAIL_FORWARDER_ADDRESS: ${GMAIL_FORWARDER_ADDRESS}
     restart: on-failure
     volumes:
-      - uploads:/usr/src/app/uploads
+      #dans le conteneur on aura ce dossier disponible.
+      #on peux se connecter au conteneur avec docker container -it exec ID /bin/sh (alpine => sh)
+      - uploads:/usr/src/app/public/uploads
     depends_on:
       - database
     networks:
