@@ -4,6 +4,7 @@ Issues :
 For some reason navbar no longer is usable when on contact page.
 Logging in returns error but works, must fix res.render and res.redirect
 having them both in one async function is not appreciated by node js environment...
+Readup on node js promises .then(), reject() resolve...
 To finish :
 9) Figure out way to include images in blogposts. (easy with img tag from summernote)
 16) Add database to keep track of visitors (logging their ips.)
