@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
         })
     }
 
-    let pathToImage = `/uploads/images/${image.name}`; 
+    let pathToImage = path.join(path.join('uploads', 'images'), image.name);
 
     //move image to /usr/src/app/uploads/images/nameoffile.jpg
     image.mv(path.join(imgDir, image.name), async (error) => {
@@ -31,10 +31,11 @@ module.exports = async (req, res) => {
                 subtitle: req.body.subtitle,
                 body: req.body.body,
                 //this is the correct path, but mv doesn't want to do it.
-                image: `${pathToImage}`,
+                image: `/${pathToImage}`,
                 //will exist because new post only available after having logged in
                 //userId gets populated in loginUser.js
-                userid: req.session.userId  
+                userid: req.session.userId,
+                datePosted: new Date()
             })
 
             if(error) {

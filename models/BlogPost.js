@@ -22,10 +22,7 @@ const BlogPostSchema = new Schema({
         ref: 'User', //refers to the user collection.
         required: true
     },
-    datePosted: {
-        type: Date,
-        default: new Date()
-    }, 
+    datePosted: Date, 
     image: String
 });
 

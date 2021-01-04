@@ -2,18 +2,19 @@
 <html lang="en">
 
 <head>
-  <%- include('layouts/header'); -%>
+  
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script type="text/javascript">
     function enable_submit_button() {
       document.getElementById("sendMessageButton").disabled = false
     }
   </script>
+  <%- include('layouts/header'); %>
 </head>
 
 <body>
 
-  <%- include('layouts/navbar'); -%>
+  <%- include('layouts/navbar') %>
 
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('/img/contact-bg.jpg'); height:25pc">
@@ -85,20 +86,8 @@
   </div>
 
   <hr>
-
   <%- include('layouts/footer'); -%>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Contact Form JavaScript -->
-  <script src="js/jqBootstrapValidation.js"></script>
-  <script src="js/contact_me.js"></script>
-
-  <!-- Custom scripts for this template -->
-  <script src="js/clean-blog.min.js"></script>
-
+  <% - include('layouts/scripts'); -%>
 </body>
 
 </html>

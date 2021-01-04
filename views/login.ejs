@@ -36,13 +36,19 @@
               <label>Username</label>
               <!--Input type="text" creates a text box, name is the property we'll be able to 
               access using req.body in index.js-->
-              <input type="text" class="form-control" placeholder="User Name" id="username" name="username">
+              <% if(usernameError) { %>
+                <p class="help-block text-danger"><%= usernameError %></p>
+              <% } %>
+              <input type="text" class="form-control" placeholder="User Name" id="username" name="username" value=<%= usernameE %>  >
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Password</label>
-              <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+              <% if(passwordError) { %>
+                <p class="help-block text-danger"><%= passwordError %></p>
+              <% } %>
+              <input type="password" class="form-control" placeholder="Password" id="password" name="password" value=<%= password %> >
             </div>
           </div>
           <br>

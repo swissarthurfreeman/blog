@@ -1,10 +1,9 @@
 //Issues / ToDo : 
 /*
+Issues : 
+For some reason navbar no longer is usable when on contact page.
 To finish :
-4) Add contact form with re-captcha authentification. ***
 9) Figure out way to include images in blogposts. (easy with img tag from summernote)
-10) No need for error handling with express image upload
-since users won't be able of uploading stuff.
 16) Add database to keep track of visitors (logging their ips.)
 */
 
@@ -23,6 +22,7 @@ const app = new express()
 
 //will be accessible to all ejs files.
 global.loggedIn = null; 
+global.gordon = false;
 
 /***************************************************/
 /*        USER DEFINED MIDDLEWARE FUNCTIONS        */
@@ -137,6 +137,10 @@ app.listen(4000, () => {
     console.log('App listening on port 4000')
 })
 
+//create admin user.
+const User = require('./models/User')
+User.create({username: 'gordon', password:`${process.env.GORDON_PASSWORD}`}, (error) => {})
+
 /***************************************************/
 /*                    ROUTES                       */
 /***************************************************/
@@ -145,7 +149,7 @@ app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
 app.post('/posts/store', storePostController)
 
-app.get('/auth/register', redirectIfAuthenticatedMiddleware, getRegisterController)
+app.get('/auth/register', getRegisterController)
 app.post('/users/register', newUserController, storeUserController)
 
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
