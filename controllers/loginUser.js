@@ -4,7 +4,7 @@ const User = require('../models/User')
 module.exports = async (req, res) => {
     const { username, password } = req.body
     
-    User.findOne({username:username}, (error, user) => {    
+    User.findOne({ username:username }, (error, user) => {    
         if ((error) || (!user)) {
             req.app.set('usernameError', 'Username not valid.')
         } else {

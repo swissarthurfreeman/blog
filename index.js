@@ -1,13 +1,12 @@
 //Issues / ToDo :
 /*
 
-Issues : 
+Issues :
 For some reason navbar no longer is usable when on contact page.
 Logging in uses flashing, but it's really not pretty, we can fix that
 using express-session.
+Add Re-Captcha for login screen.
 9) Figure out way to include images in blogposts. (easy with img tag from summernote)
-16) Add database to keep track of visitors (logging visits)
-
 */
 
 /***************************************************/
@@ -24,7 +23,7 @@ const fileUpload = require('express-fileupload')
 const app = new express()
 
 //will be accessible to all ejs files.
-global.loggedIn = null; 
+global.loggedIn = null;
 global.gordon = false;
 
 /***************************************************/
@@ -79,7 +78,10 @@ app.use(fileUpload({
 //object with secret key. Secret is used to sign and
 //encrypt the session ID cookie shared with the browser.
 app.use(expressSession({
-    secret: 'gordon-freeman'
+    secret: 'gordon-freeman',
+    saveUninitialized: true,
+    maxAge: 3600000*24, //expires daily.
+    resave: false
 }))
 
 //adds the req.body property, all req.body.* properties
@@ -109,7 +111,6 @@ app.set('trust proxy', true)
 app.use('*', (req, res, next) => {
     loggedIn = req.session.userId;
     if(!loggedIn) {
-        const date = Date()
         Visitor.create({
             date: new Date(),
             ip: req.ip,
@@ -142,7 +143,7 @@ const sendEmailController = require('./controllers/sendEmail')
 /***************************************************/
 mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@` + 
                 `${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`, //URI
-                {useNewUrlParser:true, useUnifiedTopology:true}, //options
+                {useNewUrlParser:true, useUnifiedTopology:true, useCreateIndex: true}, //options
                 function(err) {         //error handling
                     if(err) {
                         console.log(process.env.MONGO_HOST)
@@ -167,7 +168,6 @@ app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
 app.post('/posts/store', storePostController)
 
-///ADD REDIRECT IF NOT AUTHENTIFCATED.
 app.get('/auth/register', redirectIfNotAuthenticatedMiddleware, getRegisterController)
 
 app.post('/users/register', newUserController, storeUserController)
