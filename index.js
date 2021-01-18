@@ -1,13 +1,13 @@
-//Issues / ToDo : 
+//Issues / ToDo :
 /*
+
 Issues : 
 For some reason navbar no longer is usable when on contact page.
-Logging in returns error but works, must fix res.render and res.redirect
-having them both in one async function is not appreciated by node js environment...
-Readup on node js promises .then(), reject() resolve...
-To finish :
+Logging in uses flashing, but it's really not pretty, we can fix that
+using express-session.
 9) Figure out way to include images in blogposts. (easy with img tag from summernote)
-16) Add database to keep track of visitors (logging their ips.)
+16) Add database to keep track of visitors (logging visits)
+
 */
 
 /***************************************************/
@@ -33,7 +33,7 @@ global.gordon = false;
 const validateMiddleWare = require('./middleware/validationMiddleware')
 const authMiddleware = require('./middleware/authMiddleware')
 const redirectIfAuthenticatedMiddleware = require('./middleware/redirectIfAuthenticatedMiddleware') 
-
+const redirectIfNotAuthenticatedMiddleware = require('./middleware/redirectIfNotAuthenticatedMiddleware')
 
 /***************************************************/
 /*          MIDDLEWARE STACK DECLARATION           */
@@ -52,6 +52,7 @@ http://expressjs.com/en/guide/using-middleware.html
 expres.static('public') will transform any request url into
 /public/req.url (this is executed everytime the app receives a request.)
 */
+
 app.use(express.static('public'))
 app.use(express.static('uploads'))
 
@@ -94,15 +95,29 @@ app.use('/posts/store', validateMiddleWare)
 //                  check session id, check not undefined
 app.use('/posts/new', authMiddleware, newPostController)
 
-//on all requests this middleware will be executed.
-app.use('*', (req, res, next) => {
-    loggedIn = req.session.userId;
-    next()
-})
-
 //will make it that any file ending with .ejs
 //will be rendered using ejs package. (res.render)
 app.set('view engine', 'ejs')
+
+
+const Visitor = require('./models/Visitor')
+//not to get address from nginx.
+//http://expressjs.com/en/guide/behind-proxies.html#express-behind-proxies
+app.set('trust proxy', true)
+
+//on all requests this middleware will be executed.
+app.use('*', (req, res, next) => {
+    loggedIn = req.session.userId;
+    if(!loggedIn) {
+        const date = Date()
+        Visitor.create({
+            date: new Date(),
+            ip: req.ip,
+            where: req.originalUrl
+        })
+    }
+    next()
+})
 
 /***************************************************/
 /*                   CONTROLLERS                   */
@@ -152,14 +167,15 @@ app.get('/post/:id', getPostController)
 app.get('/posts/new', newPostController)
 app.post('/posts/store', storePostController)
 
-app.get('/auth/register', getRegisterController)
-app.post('/users/register', newUserController, storeUserController)
+///ADD REDIRECT IF NOT AUTHENTIFCATED.
+app.get('/auth/register', redirectIfNotAuthenticatedMiddleware, getRegisterController)
 
+app.post('/users/register', newUserController, storeUserController)
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
+
 app.get('/auth/logout', logoutController)
 app.get('/pages/about', getAboutController)
-
 
 app.get('/pages/contact', getContactController)
 app.post('/pages/contact', sendEmailMiddleware, sendEmailController)

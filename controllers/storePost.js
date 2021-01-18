@@ -30,8 +30,7 @@ module.exports = async (req, res) => {
                 title: req.body.title,
                 subtitle: req.body.subtitle,
                 body: req.body.body,
-                //this is the correct path, but mv doesn't want to do it.
-                image: `/${pathToImage}`,
+                image: path.join('/', `${pathToImage}`),
                 //will exist because new post only available after having logged in
                 //userId gets populated in loginUser.js
                 userid: req.session.userId,
@@ -39,7 +38,7 @@ module.exports = async (req, res) => {
             })
 
             if(error) {
-                console.log("MV ERROR")
+                console.log("File moving error :")
                 console.log(error)
             }
 

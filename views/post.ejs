@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<%- include('layouts/header'); -%> 
-
+<header>
+  <script type="text/javascript" id="MathJax-script" async 
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <%- include('layouts/header'); -%> 
+</header>
 <body>
   <%- include('layouts/navbar'); -%>
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('<%=blogpost.image%>')">
+  <header class="masthead" style="background-image: url('<%=blogpost.image%>')" async>
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
