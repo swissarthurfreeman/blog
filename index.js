@@ -135,8 +135,10 @@ const logoutController = require('./controllers/logout')
 const getAboutController = require('./controllers/getAbout')
 const getContactController = require('./controllers/getContact')
 const getRegisterController = require('./controllers/getRegisterController')
+const getProjectsController = require('./controllers/getProjects')
 const sendEmailMiddleware = require('./middleware/sendEmailMiddleware')
 const sendEmailController = require('./controllers/sendEmail') 
+const getLifeController = require('./controllers/getLife')
 
 /***************************************************/
 /*              DATABASE CONNECTION                */
@@ -176,6 +178,10 @@ app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 
 app.get('/auth/logout', logoutController)
 app.get('/pages/about', getAboutController)
+
+app.get('/pages/projects', getProjectsController)
+
+app.get('/pages/projects/life', getLifeController)
 
 app.get('/pages/contact', getContactController)
 app.post('/pages/contact', sendEmailMiddleware, sendEmailController)

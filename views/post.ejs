@@ -9,7 +9,7 @@
 <body>
   <%- include('layouts/navbar'); -%>
   <!-- Page Header -->
-  <header class="masthead" style="background-image: url('<%=blogpost.image%>')" async>
+  <header class="masthead" style="background-image: url('<%= blogpost.image %>')" async>
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
@@ -18,7 +18,7 @@
             <h1><%= blogpost.title %> </h1>
             <h2 class="subheading"><%- blogpost.subtitle %></h2>
             <span class="meta">Posted by
-              <a href="#"><%= blogpost.userid.username %></a>
+              <a href="/pages/about"><%= blogpost.userid.username %></a>
               on <%= blogpost.datePosted %> </span>
           </div>
         </div>

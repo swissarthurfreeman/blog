@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('layouts/header'); -%>
+</head>
+
+<body>
+  <%- include('layouts/navbar'); -%> 
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/img/contact-bg.jpg');height:25pc">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Projets</h1>
+            <h2>Projets personnels</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <!-- "-" renders as html instead of text.-->
+          <ul>
+            <li>
+              <a href="/pages/projects/life">Jeu de la vie</a>
+              Le jeu de la vie est un automate cellulaire imaginé par Conway. 
+              C'est un jeu qui se base sur un plateau de cellules, une cellule
+              peut être vivante ou morte en fonction du nombre de cellules voisines
+              vivantes. On peut créer diverses structures aux propriétées intéréssantes.
+              <a href="https://fr.wikipedia.org/wiki/Jeu_de_la_vie" target="_blank">Lire plus sur wiki.</a>
+            </li>
+            <li>
+              Billard
+            </li>
+            <li>
+              Dynamic Shooter
+            </li>
+            <li>
+              Meteor Game
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </article>
+  
+
+  <%- include('layouts/footer'); -%>
+  <%- include('layouts/scripts'); -%> 
+
+</body>
+
+</html>
