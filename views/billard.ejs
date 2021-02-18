@@ -5,25 +5,23 @@
   <%- include('layouts/header'); -%>
   <Title>Gordon's Game of Life</Title>
   <script src="/js/p5.js"></script>
+  <script src="/js/billard/balls.js"></script>
+  <script src="/js/billard/utilities.js"></script>
 </head>
 
 <body>
   <%- include('layouts/navbar'); -%> 
   <header class="masthead" style="background-image: url('/img/projects.jpg');height:4pc"></header>
   <div class="container">
-    <h1 style="width:54%;margin:auto;">Freeman's game of life.</h1>
-    <div class="row" style="margin:auto;width:54%">
-      <button onclick="start()" style="margin-bottom:10px; margin-right:10px;">Start</button>
-      <button onclick="initialiseBoard()" style="margin-bottom:10px;">Reset</button>
-    </div>
+    <h1 style="width:72%;margin:auto;">Freeman's Billard.</h1>
     <div class="row" id="parent">
-      <script src="/js/life.js"></script>
+      <script src="/js/billard/billard.js"></script>
     </div>
   </div>
 
   
   <%- include('layouts/footer'); -%>
-  <%- include('layouts/scripts'); -%>
+  <%- include('layouts/scripts'); -%> 
 </body>
   
 </html>

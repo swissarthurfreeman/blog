@@ -139,7 +139,7 @@ const getProjectsController = require('./controllers/getProjects')
 const sendEmailMiddleware = require('./middleware/sendEmailMiddleware')
 const sendEmailController = require('./controllers/sendEmail') 
 const getLifeController = require('./controllers/getLife')
-
+const getBillardController = require('./controllers/getBillard')
 /***************************************************/
 /*              DATABASE CONNECTION                */
 /***************************************************/
@@ -182,6 +182,7 @@ app.get('/pages/about', getAboutController)
 app.get('/pages/projects', getProjectsController)
 
 app.get('/pages/projects/life', getLifeController)
+app.get('/pages/projects/billard', getBillardController)
 
 app.get('/pages/contact', getContactController)
 app.post('/pages/contact', sendEmailMiddleware, sendEmailController)
