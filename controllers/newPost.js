@@ -2,7 +2,8 @@
 user to create a new blog post.*/
 
 module.exports = (req, res) => {
-    if(req.session.userId) {        
+    if(req.session.userId) {
+        loggedIn = true;        
         return res.render('create', {
             createPost: true,
             title: "",
