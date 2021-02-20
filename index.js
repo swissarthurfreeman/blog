@@ -110,7 +110,6 @@ app.set('trust proxy', true)
 //on all requests this middleware will be executed.
 app.use('*', (req, res, next) => {
     if(!req.session.userId) {
-        loggedIn = false;
         Visitor.create({
             date: new Date(),
             ip: req.ip,
