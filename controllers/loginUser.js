@@ -8,20 +8,29 @@ module.exports = async (req, res) => {
         if ((error) || (!user)) {
             req.app.set('usernameError', 'Username not valid.')
         } else {
-            const same = bcrypt.compareSync(password, user.password)
+            //console.log(username, password);
+            //console.log(user.password);
+            const same = bcrypt.compareSync(password, user.password);
             if(!same) {
-                //req.body.passwordError = 'Invalid Password'
+                loggedIn = false;
                 req.app.set('passwordError', 'Password not valid.')
             } else {
-                //req.session.userId = user._id
-                req.app.set('userId', user._id)
+                
+                //req.app.set('userId', user._id)
                 req.app.set('usernameError', '')
                 req.app.set('passwordError', '')
                 if(user.username === 'gordon') {
                     gordon = true;
                 }
+                req.session.userId = user._id;
+                //need to call save for modification of session object to be
+                //passed into next requests following redirect. (or else it won't show up).
+                req.session.save((err) => {
+                    console.log(err)
+                })
+                //loggedIn will be set to false in middleware in index.js
                 loggedIn = true;
-                console.log('passwords match')
+                
             }
         }
     })

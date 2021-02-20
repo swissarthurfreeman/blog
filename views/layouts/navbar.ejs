@@ -11,33 +11,35 @@
           <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
           </li>
-          <% if(loggedIn) { //undefined is not truthy %> 
           <li class="nav-item">
-            <a class="nav-link" href="/posts/new">New Post</a >
+            <a class="nav-link" href="/pages/projects">Projects</a >
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/logout">Logout</a >
-          </li>
-          <% } %>
-          <% if(!loggedIn) { %>  
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/login">Login</a >
-          </li>
-          <% } %>
-          <% if(loggedIn && gordon) { %>            
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/register">New User</a >
-          </li>
-          <% } %>
           <li class="nav-item">
             <a class="nav-link" href="/pages/contact">Contact</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/pages/about">About</a >
           </li>
+          <% if(loggedIn) { //undefined is not truthy %> 
           <li class="nav-item">
-            <a class="nav-link" href="/pages/projects">Projects</a >
+            <a class="nav-link" href="/posts/new">New Post</a >
           </li>
+          <% if(loggedIn && gordon) { %>            
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/register">New User</a >
+            </li>
+          <% } %>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/logout">Logout</a >
+          </li>
+          <% } %>
+          
+          
+          <% if(!loggedIn) { %>  
+            <li class="nav-item">
+              <a class="nav-link" href="/auth/login">Login</a >
+            </li>
+          <% } %>
         </ul>
       </div>
     </div>

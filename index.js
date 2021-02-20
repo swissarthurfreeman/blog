@@ -23,7 +23,7 @@ const fileUpload = require('express-fileupload')
 const app = new express()
 
 //will be accessible to all ejs files.
-global.loggedIn = null;
+global.loggedIn = false;
 global.gordon = false;
 
 /***************************************************/
@@ -109,8 +109,8 @@ app.set('trust proxy', true)
 
 //on all requests this middleware will be executed.
 app.use('*', (req, res, next) => {
-    loggedIn = req.session.userId;
-    if(!loggedIn) {
+    if(!req.session.userId) {
+        loggedIn = false;
         Visitor.create({
             date: new Date(),
             ip: req.ip,
@@ -123,7 +123,6 @@ app.use('*', (req, res, next) => {
 /***************************************************/
 /*                   CONTROLLERS                   */
 /***************************************************/
-const logout = require('./controllers/logout')
 const homeController = require('./controllers/home')
 const storePostController = require('./controllers/storePost')
 const getPostController = require('./controllers/getPost')
@@ -140,6 +139,7 @@ const sendEmailMiddleware = require('./middleware/sendEmailMiddleware')
 const sendEmailController = require('./controllers/sendEmail') 
 const getLifeController = require('./controllers/getLife')
 const getBillardController = require('./controllers/getBillard')
+
 /***************************************************/
 /*              DATABASE CONNECTION                */
 /***************************************************/
@@ -160,7 +160,7 @@ app.listen(4000, () => {
 
 //create admin user.
 const User = require('./models/User')
-User.create({username: 'gordon', password:`${process.env.GORDON_PASSWORD}`}, (error) => {})
+User.create({username: 'gordon', password:'thisIsASamplePassword'}, (error) => {})
 
 /***************************************************/
 /*                    ROUTES                       */
@@ -173,6 +173,7 @@ app.post('/posts/store', storePostController)
 app.get('/auth/register', redirectIfNotAuthenticatedMiddleware, getRegisterController)
 
 app.post('/users/register', newUserController, storeUserController)
+
 app.get('/auth/login', redirectIfAuthenticatedMiddleware, loginController)
 app.post('/users/login', redirectIfAuthenticatedMiddleware, loginUserController)
 
