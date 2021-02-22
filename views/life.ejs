@@ -11,17 +11,18 @@
   <%- include('layouts/navbar'); -%> 
   <header class="masthead" style="background-image: url('/img/projects.jpg');height:4pc"></header>
   <div class="container">
-    <h1 style="width:54%;margin:auto;">Freeman's game of life.</h1>
-    <div class="row" style="margin:auto;width:54%">
+    <div class="col-lg-8 col-md-10 mx-auto">
+      <h1>Freeman's game of life.</h1>
+      <p>Clickez sur les cases blanches afin de les rendre vivantes !</p>   
       <button onclick="start()" style="margin-bottom:10px; margin-right:10px;">Start</button>
       <button onclick="initialiseBoard()" style="margin-bottom:10px;">Reset</button>
-    </div>
-    <div class="row" id="parent">
-      <script src="/js/life.js"></script>
+      <div id="parent">
+        <script src="/js/life.js"></script>
+      </div>
+      <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank" style="color:cornflowerblue;">Life sur Wikipedia</a>
     </div>
   </div>
 
-  
   <%- include('layouts/footer'); -%>
   <%- include('layouts/scripts'); -%>
 </body>

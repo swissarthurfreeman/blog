@@ -139,6 +139,8 @@ const sendEmailMiddleware = require('./middleware/sendEmailMiddleware')
 const sendEmailController = require('./controllers/sendEmail') 
 const getLifeController = require('./controllers/getLife')
 const getBillardController = require('./controllers/getBillard')
+const getFractalController = require('./controllers/getMenger')
+const getTreeController = require('./controllers/getTree')
 
 /***************************************************/
 /*              DATABASE CONNECTION                */
@@ -184,10 +186,16 @@ app.get('/pages/projects', getProjectsController)
 
 app.get('/pages/projects/life', getLifeController)
 app.get('/pages/projects/billard', getBillardController)
+app.get('/pages/projects/menger', getFractalController)
+app.get('/pages/projects/tree', getTreeController)
 
 app.get('/pages/contact', getContactController)
 app.post('/pages/contact', sendEmailMiddleware, sendEmailController)
 
+/*
+Automate rendering of webpages that hit route /pages/projects/p5/NAME
+and autofill js with handler for each.
+*/ 
 //if after having checked all routes, we haven't sent anything
 //it means it ain't defined, so we render notfound.
 app.use((req, res) => res.render('notfound'))

@@ -1,31 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <%- include('layouts/header'); -%>
   <Title>Gordon's Game of Life</Title>
   <script src="/js/p5.js"></script>
-  <script src="/js/billard/balls.js"></script>
-  <script src="/js/billard/utilities.js"></script>
 </head>
-
 <body>
   <%- include('layouts/navbar'); -%> 
   <header class="masthead" style="background-image: url('/img/projects.jpg');height:4pc"></header>
   <div class="container">
     <div class="col-lg-8 col-md-10 mx-auto">
-      <h1>Freeman's Billard.</h1>
-      <p>Clickez sur la boule blanche et déplacez la souris afin de tirer !</p>
-      <button onclick="setup()" style="margin-bottom:10px;">Reset</button>
-      <div id="parent">
-        <script src="/js/billard/billard.js"></script>
-      </div>
+        <h1>Freeman's Fractal Tree</h1>
+        <p>Utilisez le slider afin de faire varier les angles...</p>
+        <div id="parent">
+          <script src="/js/tree.js"></script>  
+        </div>
+        <br>
+        <a href="https://en.wikipedia.org/wiki/Binary_heap" target="_blank" style="color:cornflowerblue;">Tas binaires sur wikipedia.</a>
     </div>
   </div>
-
-  
   <%- include('layouts/footer'); -%>
-  <%- include('layouts/scripts'); -%> 
+  <%- include('layouts/scripts'); -%>
 </body>
-  
 </html>

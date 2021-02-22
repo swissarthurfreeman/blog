@@ -24,6 +24,11 @@ function setup() {
     background(0, 255, 0);
     frameRate(60);
 
+    balls = [];
+    height = 35; //height est le double du rayon.    
+    coeff = 0.04;
+    stick = false;
+
     //La balle 0 est la balle blance.
     balls[0] = new TBall(150, 275, 0, 0);
 

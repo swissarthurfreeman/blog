@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('layouts/header'); -%>
+  <Title>Gordon's Game of Life</Title>
+  <script src="/js/p5.js"></script>
+</head>
+<body>
+  <%- include('layouts/navbar'); -%> 
+  <header class="masthead" style="background-image: url('/img/projects.jpg');height:4pc"></header>
+  <div class="container">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        <h1>Freeman's Menger Sponge</h1>
+        <p>Clickez sur l'écran afin de calculer les itérations !</p>
+        <div id="parent">
+          <script src="/js/box.js"></script>
+          <script src="/js/menger.js"></script>      
+        </div>
+        <br>
+        <a href="https://en.wikipedia.org/wiki/Menger_sponge" target="_blank" style="color:cornflowerblue;">Menger Sponge sur Wikipedia.</a>
+    </div>
+  </div>
+
+  <%- include('layouts/footer'); -%>
+  <%- include('layouts/scripts'); -%>
+</body>
+</html>
