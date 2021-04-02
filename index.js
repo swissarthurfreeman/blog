@@ -1,12 +1,12 @@
-//Issues / ToDo :
 /*
+Issues / ToDo :
 
-Issues :
-For some reason navbar no longer is usable when on contact page.
-Logging in uses flashing, but it's really not pretty, we can fix that
-using express-session.
+Issue : google automatically turns off allow access from less secure apps
+when it comes to sending emails using their api. We'll have to move to Oauth2
+authentification instead of the current insecure solution.
 Add Re-Captcha for login screen.
-9) Figure out way to include images in blogposts. (easy with img tag from summernote)
+Figure out way to include images in blogposts. (easy with img tag from summernote)
+
 */
 
 /***************************************************/
